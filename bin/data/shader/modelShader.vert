@@ -37,7 +37,7 @@ mat4 getMat(sampler2DRect tex, float step)
 
 void main()
 {
-    mat4 transformMatrix = getMat(modelTransTexture, 0.0);
+    mat4 transformMatrix = getMat(modelTransTexture, gl_InstanceID);
     
     vec4 mPos = vec4(0.0);
     mPos += weights[0] * (getMat(animationTexture, boneIDs[0]) * position);

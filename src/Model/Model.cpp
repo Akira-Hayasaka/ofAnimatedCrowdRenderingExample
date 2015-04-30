@@ -10,7 +10,7 @@
 
 void Model::setup()
 {
-    nInstance = 1;
+    nInstance = 2;
     
     for (int i = 0; i < nInstance; i++)
     {
@@ -41,13 +41,23 @@ void Model::update()
     vector<float> modelMats;
     for(int i = 0; i < nInstance; i++)
     {
-        ofVec3f pos = ofVec3f::zero();
-        pos.y = -20;
+        ofVec3f pos;
+        pos.x = ofNoise(0.001 * t, i + 0) * 100 -50;
+        pos.y = ofNoise(0.001 * t, i + 10) * 100 -50;
+        pos.z = ofNoise(0.001 * t, i + 20) * 100 -50;
         
-        float scale = 4.0;
+        float angle = ofNoise(0.05 * t, i + 60) * 360;
         
-        ofMatrix4x4 mat = ofMatrix4x4::newTranslationMatrix(ofVec3f::zero());
+        ofVec3f axis;
+        axis.x = ofNoise(0.02 * t, i + 30);
+        axis.y = ofNoise(0.02 * t, i + 40);
+        axis.z = ofNoise(0.02 * t, i + 50);
         
+        float scale = ofNoise(0.02 * t, i + 70) * 2.0 + 0.5;
+        
+        ofMatrix4x4 mat = ofMatrix4x4::newTranslationMatrix(ofVec3f());
+        
+        mat.rotate(angle, axis.x, axis.y, axis.z);
         mat.scale(scale, scale, scale);
         mat.translate(pos);
         
@@ -112,7 +122,31 @@ void Model::draw(ofMatrix4x4 camMvpMatrix)
         
         ofEnableBlendMode(p.blendmode);
         
-        p.vbo.drawElements(GL_TRIANGLES, p.vbo.getNumIndices());
+        ofPolyRenderMode drawMode = OF_MESH_FILL;
+        int primCount = nInstance;
+        GLuint mode = ofGetGLPrimitiveMode(OF_PRIMITIVE_TRIANGLES);
+        glPolygonMode(GL_FRONT_AND_BACK, ofGetGLPolyMode(drawMode));
+        if (p.vbo.getNumIndices() && drawMode != OF_MESH_POINTS)
+        {
+            if (primCount <= 1)
+            {
+                p.vbo.drawElements(mode, p.vbo.getNumIndices());
+            }
+            else
+            {
+                p.vbo.drawElementsInstanced(mode, p.vbo.getNumIndices(), primCount);
+            }
+        }else
+        {
+            if (primCount <= 1)
+            {
+                p.vbo.draw(mode, 0, p.vbo.getNumVertices());
+            }
+            else
+            {
+                p.vbo.drawInstanced(mode, 0, p.vbo.getNumVertices(), primCount);
+            }
+        }
         
         p.material.end();
     }
@@ -145,7 +179,7 @@ void Model::genMeshPieces()
         mp.blendmode = blend;
         
         mp.instancedAnimTextre.allocate(nInstance * 4 * maxNBone, 1, GL_RGBA32F, GL_RGBA, GL_FLOAT);
-        
+
         pieces.push_back(mp);
     }
 }
