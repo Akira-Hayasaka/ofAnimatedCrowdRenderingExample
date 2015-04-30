@@ -10,7 +10,7 @@
 
 void Model::setup()
 {
-    nInstance = 2;
+    nInstance = 500;
     
     for (int i = 0; i < nInstance; i++)
     {
@@ -80,22 +80,61 @@ void Model::update()
     
     for (auto &piece : pieces)
     {
-        vector<float> animMat;
+        int w = maxNBone * 4;
+        int h = nInstance;
+        ofFloatPixels px;
+        float *animMat = new float[w * h * 4];
         
-        BoneMatricesPerFrame bmpf = piece.bmfs.at(ofMap(animPcts.at(0),
-                                                        0.0, 1.0,
-                                                        0, piece.bmfs.size(),
-                                                        true));
-        for (auto mat : bmpf.matrices)
+//        ofLog() << "";
+//        ofLog() << "begin mesh";
+//        ofLog() << "ttl float len = " << w * h * 4;
+        
+        for (int i = 0; i < h; i++)
         {
-            float* ptr = mat.getPtr();
-            for(int j = 0; j < matCell; j++)
+            BoneMatricesPerFrame bmpf = piece.bmfs.at(ofMap(animPcts.at(i),
+                                                            0.0, 1.0,
+                                                            0, piece.bmfs.size(),
+                                                            true));
+//            ofLog() << "ttl float in row = " << w * 4;
+//            ofLog() << "ttl mat in float = " << bmpf.matrices.size() * matCell;
+//            ofLog() << "current row = " << i;
+            
+            int wProceed = 0;
+            int matCnt = 0;
+            for (auto mat : bmpf.matrices)
             {
-                animMat.push_back(ptr[j]);
+                ofFloatColor col;
+                float* ptr = mat.getPtr();
+                for(int j = 0; j < matCell; j++)
+                {
+                    int filledPoint = (i * w * 4) + (matCnt * matCell + j);
+//                    ofLog() << "filledPoint = " << filledPoint;
+                    animMat[filledPoint] = ptr[j];
+                    wProceed++;
+                }
+                matCnt++;
             }
+            
+            int needTobePadded = w * 4 - wProceed;
+//            ofLog() << "filled col in row = " << wProceed/4;
+//            ofLog() << "filled float in row= " << wProceed;
+//            ofLog() << "need to be padding = " << needTobePadded;
+            
+//            // padding
+//            int padCnt = 0;
+//            for (int k = 0; i < needTobePadded; i++)
+//            {
+//                animMat[wProceed] = 1.0;
+//                wProceed++;
+//                padCnt++;
+//            }
+//            ofLog() << "matCnt = " << matCnt;
+//            ofLog() << "padding " << padCnt;
         }
         
-        piece.instancedAnimTextre.loadData(&animMat[0], nInstance * 4 * maxNBone, 1, GL_RGBA);
+        piece.instancedAnimTextre.loadData(&animMat[0], w, h, GL_RGBA);
+        
+        delete animMat;
     }
 }
 
@@ -156,6 +195,23 @@ void Model::draw(ofMatrix4x4 camMvpMatrix)
     diffuseTex.unbind();
 }
 
+void Model::drawDebug()
+{
+
+    int w = 400;
+    for (int i = 0; i < pieces.size(); i++)
+    {
+        int h = pieces.at(i).instancedAnimTextre.getHeight();
+        pieces.at(i).instancedAnimTextre.draw(0, i * h,
+                                              pieces.at(i).instancedAnimTextre.getWidth(),
+                                              h);
+    }
+    
+    ofDrawBitmapStringHighlight("mesh parts = " + ofToString(pieces.size()), w + 10, 10);
+    ofDrawBitmapStringHighlight("ttl anim frame = " + ofToString(pieces.at(0).bmfs.size()-1), w + 10, 35);
+    ofDrawBitmapStringHighlight("num instance = " + ofToString(pieces.at(0).instancedAnimTextre.getHeight()), w + 10, 60);
+}
+
 void Model::genMeshPieces()
 {
     loader.setPositionForAllAnimations(0.0);
@@ -177,8 +233,6 @@ void Model::genMeshPieces()
         
         ofBlendMode blend = meshHelper->blendMode;
         mp.blendmode = blend;
-        
-        mp.instancedAnimTextre.allocate(nInstance * 4 * maxNBone, 1, GL_RGBA32F, GL_RGBA, GL_FLOAT);
 
         pieces.push_back(mp);
     }

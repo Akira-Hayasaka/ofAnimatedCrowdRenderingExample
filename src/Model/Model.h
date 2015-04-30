@@ -23,6 +23,8 @@ public:
     void update();
     void draw(ofMatrix4x4 camMvpMatrix);
     
+    void drawDebug();
+    
 private:
     
     void genMeshPieces();

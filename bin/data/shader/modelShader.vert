@@ -23,10 +23,10 @@ out VSOUT
     vec4 weightCol;
 } vsout;
 
-mat4 getMat(sampler2DRect tex, float step)
+mat4 getMat(sampler2DRect tex, float stepx, float stepy)
 {
-    float y = 0;
-    float x = step * 4.0;
+    float x = stepx * 4.0;
+    float y = stepy;
     
     mat4 mat = mat4(texture(tex, vec2((x+0.5), y+0.5)),
                     texture(tex, vec2((x+1.5), y+0.5)),
@@ -37,13 +37,13 @@ mat4 getMat(sampler2DRect tex, float step)
 
 void main()
 {
-    mat4 transformMatrix = getMat(modelTransTexture, gl_InstanceID);
+    mat4 transformMatrix = getMat(modelTransTexture, gl_InstanceID, 0.0);
     
     vec4 mPos = vec4(0.0);
-    mPos += weights[0] * (getMat(animationTexture, boneIDs[0]) * position);
-    mPos += weights[1] * (getMat(animationTexture, boneIDs[1]) * position);
-    mPos += weights[2] * (getMat(animationTexture, boneIDs[2]) * position);
-    mPos += weights[3] * (getMat(animationTexture, boneIDs[3]) * position);
+    mPos += weights[0] * (getMat(animationTexture, boneIDs[0], gl_InstanceID) * position);
+    mPos += weights[1] * (getMat(animationTexture, boneIDs[1], gl_InstanceID) * position);
+    mPos += weights[2] * (getMat(animationTexture, boneIDs[2], gl_InstanceID) * position);
+    mPos += weights[3] * (getMat(animationTexture, boneIDs[3], gl_InstanceID) * position);
     vec4 vPos = transformMatrix * mPos;
     
     vsout.N = mat3(modelViewMatrix) * normal;

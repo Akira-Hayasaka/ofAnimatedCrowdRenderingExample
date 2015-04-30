@@ -2,9 +2,8 @@
 
 void ofApp::setup()
 {
-    ofEnableDepthTest();
     ofSetFrameRate(60);
-    ofBackground(ofColor::white);
+    ofBackground(ofColor::whiteSmoke);
     
     model.setup();
 }
@@ -20,6 +19,7 @@ void ofApp::draw()
 {
     float t = Globals::ELAPSED_TIME;
     
+    ofEnableDepthTest();
     ofVec3f camPos;
     camPos.x = cos(t * 13 * DEG_TO_RAD) * 100;
     camPos.z = sin(t * 13 * DEG_TO_RAD) * 100;
@@ -30,6 +30,9 @@ void ofApp::draw()
     model.draw(cam.getModelViewProjectionMatrix());
     
     cam.end();
+    
+    ofDisableDepthTest();
+//    model.drawDebug();
     
     ofDrawBitmapStringHighlight("fps:" + ofToString(ofGetFrameRate()), 10, ofGetHeight() - 20);
 }
