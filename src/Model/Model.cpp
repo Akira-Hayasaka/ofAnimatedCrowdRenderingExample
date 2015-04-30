@@ -90,6 +90,10 @@ void Model::update()
 
 void Model::draw(ofMatrix4x4 camMvpMatrix)
 {
+    ofDisableBlendMode();
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CCW);
+    
     diffuseTex.bind();
     shader.begin();
     ofPushStyle();
@@ -109,12 +113,11 @@ void Model::draw(ofMatrix4x4 camMvpMatrix)
         
         p.material.begin();
         
-        ofEnableBlendMode(p.blendmode);
-        
         ofPolyRenderMode drawMode = OF_MESH_FILL;
         int primCount = nInstance;
         GLuint mode = ofGetGLPrimitiveMode(OF_PRIMITIVE_TRIANGLES);
         glPolygonMode(GL_FRONT_AND_BACK, ofGetGLPolyMode(drawMode));
+        
         if (p.vbo.getNumIndices() && drawMode != OF_MESH_POINTS)
         {
             if (primCount <= 1)
@@ -125,7 +128,8 @@ void Model::draw(ofMatrix4x4 camMvpMatrix)
             {
                 p.vbo.drawElementsInstanced(mode, p.vbo.getNumIndices(), primCount);
             }
-        }else
+        }
+        else
         {
             if (primCount <= 1)
             {
@@ -143,6 +147,9 @@ void Model::draw(ofMatrix4x4 camMvpMatrix)
     ofPopStyle();
     shader.end();
     diffuseTex.unbind();
+    
+    glDisable(GL_CULL_FACE);
+    ofEnableAlphaBlending();
 }
 
 void Model::drawDebug()
