@@ -34,6 +34,7 @@
 		E962259E1AF0564400A6666D /* MeshPiece.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E962259A1AF0564400A6666D /* MeshPiece.cpp */; };
 		E962259F1AF0564400A6666D /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E962259C1AF0564400A6666D /* Model.cpp */; };
 		E96225A91AF076F600A6666D /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E96225A71AF076F600A6666D /* Globals.cpp */; };
+		E96227CF1AF2132000A6666D /* InstanceData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E96227CD1AF2132000A6666D /* InstanceData.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,14 +138,16 @@
 		E962257A1AEF178D00A6666D /* ofxAssimpTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAssimpTexture.cpp; sourceTree = "<group>"; };
 		E962257B1AEF178D00A6666D /* ofxAssimpTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAssimpTexture.h; sourceTree = "<group>"; };
 		E962257C1AEF178D00A6666D /* ofxAssimpUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAssimpUtils.h; sourceTree = "<group>"; };
-		E96225841AEF19DB00A6666D /* modelShader.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = modelShader.vert; sourceTree = "<group>"; };
-		E96225851AEF19E600A6666D /* modelShader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = modelShader.frag; sourceTree = "<group>"; };
 		E962259A1AF0564400A6666D /* MeshPiece.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeshPiece.cpp; sourceTree = "<group>"; };
 		E962259B1AF0564400A6666D /* MeshPiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshPiece.h; sourceTree = "<group>"; };
 		E962259C1AF0564400A6666D /* Model.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
 		E962259D1AF0564400A6666D /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		E96225A71AF076F600A6666D /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Globals.cpp; sourceTree = "<group>"; };
 		E96225A81AF076F600A6666D /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
+		E96227CB1AF20EEE00A6666D /* animatedInstance.frag */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = animatedInstance.frag; sourceTree = "<group>"; };
+		E96227CC1AF20EEE00A6666D /* animatedInstance.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = animatedInstance.vert; sourceTree = "<group>"; };
+		E96227CD1AF2132000A6666D /* InstanceData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InstanceData.cpp; sourceTree = "<group>"; };
+		E96227CE1AF2132000A6666D /* InstanceData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstanceData.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,8 +381,8 @@
 		E96225831AEF19CE00A6666D /* shader */ = {
 			isa = PBXGroup;
 			children = (
-				E96225841AEF19DB00A6666D /* modelShader.vert */,
-				E96225851AEF19E600A6666D /* modelShader.frag */,
+				E96227CB1AF20EEE00A6666D /* animatedInstance.frag */,
+				E96227CC1AF20EEE00A6666D /* animatedInstance.vert */,
 			);
 			name = shader;
 			path = bin/data/shader;
@@ -392,6 +395,8 @@
 				E962259D1AF0564400A6666D /* Model.h */,
 				E962259A1AF0564400A6666D /* MeshPiece.cpp */,
 				E962259B1AF0564400A6666D /* MeshPiece.h */,
+				E96227CD1AF2132000A6666D /* InstanceData.cpp */,
+				E96227CE1AF2132000A6666D /* InstanceData.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -492,6 +497,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E96227CF1AF2132000A6666D /* InstanceData.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E962257E1AEF178D00A6666D /* ofxAssimpAnimation.cpp in Sources */,
 				E96225811AEF178D00A6666D /* ofxAssimpTexture.cpp in Sources */,

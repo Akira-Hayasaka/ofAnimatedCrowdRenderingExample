@@ -14,16 +14,18 @@ void Model::setup()
     
     for (int i = 0; i < nInstance; i++)
     {
-        animPcts.push_back(ofRandom(1.0));
+        InstanceData id;
+        id.setup(i);
+        instanceDatas.push_back(id);
     }
     
-    shader.load("shader/modelShader");
+    shader.load("shader/animatedInstance");
     
     loader.loadModel("model/astroBoy_walk.dae", true);
     loader.setPosition(0, 0, 0);
     loader.setScale(0.5, 0.5, 0.5);
     loader.setRotation(0, 180, 1, 0, 0);
-    ofLoadImage(diffuseTex, "model/boy_10.tga");
+    ofLoadImage(diffuseTex, "model/texss/red.tga");
     modelMatrix = loader.getModelMatrix();
     
     genMeshPieces();
@@ -35,33 +37,13 @@ void Model::setup()
 
 void Model::update()
 {
-    float t = Globals::ELAPSED_TIME;
-    
     // model transform
     vector<float> modelMats;
-    for(int i = 0; i < nInstance; i++)
+    for (auto &idata : instanceDatas)
     {
-        ofVec3f pos;
-        pos.x = ofNoise(0.001 * t, i + 0) * 100 -50;
-        pos.y = ofNoise(0.001 * t, i + 10) * 100 -50;
-        pos.z = ofNoise(0.001 * t, i + 20) * 100 -50;
+        idata.update();
         
-        float angle = ofNoise(0.05 * t, i + 60) * 360;
-        
-        ofVec3f axis;
-        axis.x = ofNoise(0.02 * t, i + 30);
-        axis.y = ofNoise(0.02 * t, i + 40);
-        axis.z = ofNoise(0.02 * t, i + 50);
-        
-        float scale = ofNoise(0.02 * t, i + 70) * 2.0 + 0.5;
-        
-        ofMatrix4x4 mat = ofMatrix4x4::newTranslationMatrix(ofVec3f());
-        
-        mat.rotate(angle, axis.x, axis.y, axis.z);
-        mat.scale(scale, scale, scale);
-        mat.translate(pos);
-        
-        float* ptr = mat.getPtr();
+        float* ptr = idata.getTransform().getPtr();
         for(int j = 0; j < matCell; j++)
         {
             modelMats.push_back(ptr[j]);
@@ -71,13 +53,6 @@ void Model::update()
     
     
     // piece transform
-    for (auto &ap : animPcts)
-    {
-        ap += 0.015;
-        if (ap > 1.0)
-            ap = 0.0;
-    }
-    
     for (auto &piece : pieces)
     {
         int w = maxNBone * 4;
@@ -85,20 +60,12 @@ void Model::update()
         ofFloatPixels px;
         float *animMat = new float[w * h * 4];
         
-//        ofLog() << "";
-//        ofLog() << "begin mesh";
-//        ofLog() << "ttl float len = " << w * h * 4;
-        
         for (int i = 0; i < h; i++)
         {
-            BoneMatricesPerFrame bmpf = piece.bmfs.at(ofMap(animPcts.at(i),
+            BoneMatricesPerFrame bmpf = piece.bmfs.at(ofMap(instanceDatas.at(i).animPct,
                                                             0.0, 1.0,
                                                             0, piece.bmfs.size(),
                                                             true));
-//            ofLog() << "ttl float in row = " << w * 4;
-//            ofLog() << "ttl mat in float = " << bmpf.matrices.size() * matCell;
-//            ofLog() << "current row = " << i;
-            
             int wProceed = 0;
             int matCnt = 0;
             for (auto mat : bmpf.matrices)
@@ -108,28 +75,11 @@ void Model::update()
                 for(int j = 0; j < matCell; j++)
                 {
                     int filledPoint = (i * w * 4) + (matCnt * matCell + j);
-//                    ofLog() << "filledPoint = " << filledPoint;
                     animMat[filledPoint] = ptr[j];
                     wProceed++;
                 }
                 matCnt++;
             }
-            
-            int needTobePadded = w * 4 - wProceed;
-//            ofLog() << "filled col in row = " << wProceed/4;
-//            ofLog() << "filled float in row= " << wProceed;
-//            ofLog() << "need to be padding = " << needTobePadded;
-            
-//            // padding
-//            int padCnt = 0;
-//            for (int k = 0; i < needTobePadded; i++)
-//            {
-//                animMat[wProceed] = 1.0;
-//                wProceed++;
-//                padCnt++;
-//            }
-//            ofLog() << "matCnt = " << matCnt;
-//            ofLog() << "padding " << padCnt;
         }
         
         piece.instancedAnimTextre.loadData(&animMat[0], w, h, GL_RGBA);

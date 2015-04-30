@@ -14,6 +14,7 @@
 #include "ofxAssimpUtils.h"
 #include "Globals.h"
 #include "MeshPiece.h"
+#include "InstanceData.h"
 
 class Model
 {
@@ -35,16 +36,15 @@ private:
     const int matCell = 16;
     
     int nInstance;
+    vector<InstanceData> instanceDatas;
     
     ofTexture modelTransTexture; // <= take all instance's mat of this frame
-    
+    ofTexture diffuseTex;
     ofxAssimpModelLoader loader;
     ofMatrix4x4 modelMatrix;
-    ofTexture diffuseTex;
+    
     vector<MeshPiece> pieces;
     ofShader shader;
-    
-    vector<float> animPcts;
 };
 
 #endif /* defined(__emptyExample__Model__) */
