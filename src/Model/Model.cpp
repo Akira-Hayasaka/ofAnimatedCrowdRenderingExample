@@ -84,7 +84,7 @@ void Model::update()
         
         piece.instancedAnimTextre.loadData(&animMat[0], w, h, GL_RGBA);
         
-        delete animMat;
+        delete[] animMat;
     }
 }
 
