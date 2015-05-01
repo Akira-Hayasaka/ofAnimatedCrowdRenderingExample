@@ -261,16 +261,14 @@ void Model::bindBoneIDAndWeightToAttribute()
         }
         
         // bind attribute
-        int count = 0;
-        float *boneIDs = new float[piece.boneInfos.size()*maxBone];
-        float *weights = new float[piece.boneInfos.size()*maxBone];
+        vector<float> boneIDs;
+        vector<float> weights;
         for (auto bi : piece.boneInfos)
         {
             for (int i = 0; i < maxBone; i++)
             {
-                boneIDs[count] = bi.bornID.at(i);
-                weights[count] = bi.weight.at(i);
-                count++;
+                boneIDs.push_back(bi.bornID.at(i));
+                weights.push_back(bi.weight.at(i));
             }
         }
         
@@ -278,7 +276,7 @@ void Model::bindBoneIDAndWeightToAttribute()
         piece.vbo.setAttributeData(boneIDLoc,
                                    &boneIDs[0],
                                    4,
-                                   piece.boneInfos.size()*maxBone,
+                                   boneIDs.size(),
                                    GL_STATIC_DRAW,
                                    sizeof(ofVec4f));
         
@@ -286,12 +284,9 @@ void Model::bindBoneIDAndWeightToAttribute()
         piece.vbo.setAttributeData(weightLoc,
                                    &weights[0],
                                    4,
-                                   piece.boneInfos.size()*maxBone,
+                                   weights.size(),
                                    GL_STATIC_DRAW,
                                    sizeof(ofVec4f));
-        
-        delete[] boneIDs;
-        delete[] weights;
         
 //        for (auto bi : piece.boneInfos)
 //        {
