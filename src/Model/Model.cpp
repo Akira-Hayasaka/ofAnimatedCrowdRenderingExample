@@ -261,32 +261,37 @@ void Model::bindBoneIDAndWeightToAttribute()
         }
         
         // bind attribute
-        vector<float> boneIDs;
-        vector<float> weights;
+        int count = 0;
+        float *boneIDs = new float[piece.boneInfos.size()*maxBone];
+        float *weights = new float[piece.boneInfos.size()*maxBone];
         for (auto bi : piece.boneInfos)
         {
             for (int i = 0; i < maxBone; i++)
             {
-                boneIDs.push_back(bi.bornID.at(i));
-                weights.push_back(bi.weight.at(i));
+                boneIDs[count] = bi.bornID.at(i);
+                weights[count] = bi.weight.at(i);
+                count++;
             }
         }
         
         int boneIDLoc = shader.getAttributeLocation("boneIDs");
         piece.vbo.setAttributeData(boneIDLoc,
-                                               &boneIDs[0],
-                                               4,
-                                               boneIDs.size(),
-                                               GL_STATIC_DRAW,
-                                               sizeof(ofVec4f));
+                                   &boneIDs[0],
+                                   4,
+                                   piece.boneInfos.size()*maxBone,
+                                   GL_STATIC_DRAW,
+                                   sizeof(ofVec4f));
         
         int weightLoc = shader.getAttributeLocation("weights");
         piece.vbo.setAttributeData(weightLoc,
-                                               &weights[0],
-                                               4,
-                                               weights.size(),
-                                               GL_STATIC_DRAW,
-                                               sizeof(ofVec4f));
+                                   &weights[0],
+                                   4,
+                                   piece.boneInfos.size()*maxBone,
+                                   GL_STATIC_DRAW,
+                                   sizeof(ofVec4f));
+        
+        delete[] boneIDs;
+        delete[] weights;
         
 //        for (auto bi : piece.boneInfos)
 //        {
