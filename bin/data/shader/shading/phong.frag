@@ -9,7 +9,7 @@ in PHONGOUT
     vec3 V;
 } phongIn;
 
-vec3 getFragColor()
+vec3 getPhongColor()
 {
     vec4 texColor = texture(diffuseTex, phongIn.texCoordVarying) * globalColor;
     vec3 diffuse_albedo = texColor.rgb * 1.6;
@@ -22,7 +22,7 @@ vec3 getFragColor()
     vec3 specular_albedo = vec3(0.0);
     float specular_power = 128.0;
     vec3 specular = pow(max(dot(R, V), 0.0), specular_power) * specular_albedo;
-    vec3 finalColor = diffuse + specular;
+    vec3 phongColor = diffuse + specular;
     
-    return finalColor;
+    return phongColor;
 }

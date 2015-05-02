@@ -6,5 +6,5 @@ out vec4 fragColor;
 
 void main()
 {
-    fragColor = vec4(getFragColor(), 1.0);
+    fragColor = vec4(getPhongColor(), 1.0);
 }
