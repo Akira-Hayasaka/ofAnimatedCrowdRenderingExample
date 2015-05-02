@@ -93,6 +93,9 @@
 		E7F985F515E0DE99003869B5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		E95887081AF45B63007E20E8 /* astroBoy.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = astroBoy.vert; sourceTree = "<group>"; };
 		E95887091AF45B6E007E20E8 /* astroBoy.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = astroBoy.frag; sourceTree = "<group>"; };
+		E958870B1AF45E76007E20E8 /* animatedInstance.vert */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = animatedInstance.vert; sourceTree = "<group>"; };
+		E958870D1AF45EC8007E20E8 /* phong.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = phong.vert; sourceTree = "<group>"; };
+		E958870E1AF45ED2007E20E8 /* phong.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = phong.frag; sourceTree = "<group>"; };
 		E96225471AEF178D00A6666D /* addon_config.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = addon_config.mk; sourceTree = "<group>"; };
 		E962254B1AEF178D00A6666D /* aiAnim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiAnim.h; sourceTree = "<group>"; };
 		E962254C1AEF178D00A6666D /* aiAssert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aiAssert.h; sourceTree = "<group>"; };
@@ -146,7 +149,6 @@
 		E962259D1AF0564400A6666D /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		E96225A71AF076F600A6666D /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Globals.cpp; sourceTree = "<group>"; };
 		E96225A81AF076F600A6666D /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
-		E96227CC1AF20EEE00A6666D /* animatedInstance.glslinc */ = {isa = PBXFileReference; lastKnownFileType = text; path = animatedInstance.glslinc; sourceTree = "<group>"; };
 		E96227CD1AF2132000A6666D /* InstanceData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InstanceData.cpp; sourceTree = "<group>"; };
 		E96227CE1AF2132000A6666D /* InstanceData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstanceData.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -268,6 +270,23 @@
 			name = openFrameworks;
 			sourceTree = "<group>";
 		};
+		E958870A1AF45E76007E20E8 /* animation */ = {
+			isa = PBXGroup;
+			children = (
+				E958870B1AF45E76007E20E8 /* animatedInstance.vert */,
+			);
+			path = animation;
+			sourceTree = "<group>";
+		};
+		E958870C1AF45E76007E20E8 /* shading */ = {
+			isa = PBXGroup;
+			children = (
+				E958870D1AF45EC8007E20E8 /* phong.vert */,
+				E958870E1AF45ED2007E20E8 /* phong.frag */,
+			);
+			path = shading;
+			sourceTree = "<group>";
+		};
 		E96225461AEF178D00A6666D /* ofxAssimpModelLoader */ = {
 			isa = PBXGroup;
 			children = (
@@ -384,7 +403,8 @@
 			children = (
 				E95887081AF45B63007E20E8 /* astroBoy.vert */,
 				E95887091AF45B6E007E20E8 /* astroBoy.frag */,
-				E96227CC1AF20EEE00A6666D /* animatedInstance.glslinc */,
+				E958870A1AF45E76007E20E8 /* animation */,
+				E958870C1AF45E76007E20E8 /* shading */,
 			);
 			name = shader;
 			path = bin/data/shader;
