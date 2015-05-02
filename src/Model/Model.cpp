@@ -98,12 +98,7 @@ void Model::draw(ofMatrix4x4 camMvpMatrix)
     shader.begin();
     ofPushStyle();
     
-    GLuint matLoc = glGetUniformLocation(shader.getProgram(), "camMvpMatrix");
-    if (matLoc != -1)
-    {
-        glUniformMatrix4fv(matLoc, 1, GL_FALSE, camMvpMatrix.getPtr());
-    }
-
+    shader.setUniformMatrix4f("camMvpMatrix", camMvpMatrix);
     shader.setUniformTexture("modelTransTexture", modelTransTexture, 1);
     
     for (auto p : pieces)
