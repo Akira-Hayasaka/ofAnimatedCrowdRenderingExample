@@ -31,5 +31,5 @@ void main()
     vec3 finalColor = diffuse + specular;
     
     fragColor = vec4(finalColor, 1.0);
-//    fragColor = vec4(fsin.weightCol.rgb, 1.0);
+    //    fragColor = vec4(fsin.weightCol.rgb, 1.0);
 }

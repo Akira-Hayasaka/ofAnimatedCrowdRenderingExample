@@ -19,7 +19,7 @@ void Model::setup()
         instanceDatas.push_back(id);
     }
     
-    shader.load("shader/animatedInstance");
+    shader.load("shader/astroBoy");
     
     loader.loadModel("model/astroBoy_walk.dae", true);
     loader.setPosition(0, 0, 0);
