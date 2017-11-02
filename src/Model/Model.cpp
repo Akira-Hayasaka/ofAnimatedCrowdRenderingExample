@@ -21,7 +21,7 @@ void Model::setup()
     
     shader.load("shader/astroBoy");
     
-    loader.loadModel("model/astroBoy_walk.dae", true);
+    loader.loadModel("model/astroBoy_walk.dae", false);
     loader.setPosition(0, 0, 0);
     loader.setScale(0.5, 0.5, 0.5);
     loader.setRotation(0, 180, 1, 0, 0);
@@ -90,13 +90,7 @@ void Model::update()
 
 void Model::draw(ofMatrix4x4 camMvpMatrix)
 {
-    ofDisableBlendMode();
-    glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CCW);
-    
-    diffuseTex.bind();
     shader.begin();
-    ofPushStyle();
     
     shader.setUniformMatrix4f("camMvpMatrix", camMvpMatrix);
     shader.setUniformTexture("modelTransTexture", modelTransTexture, 1);
@@ -105,8 +99,6 @@ void Model::draw(ofMatrix4x4 camMvpMatrix)
     {
         shader.setUniformTexture("animationTexture", p.instancedAnimTextre, 2);
         shader.setUniformTexture("diffuseTex", diffuseTex, 3);
-        
-        p.material.begin();
         
         ofPolyRenderMode drawMode = OF_MESH_FILL;
         int primCount = nInstance;
@@ -135,16 +127,9 @@ void Model::draw(ofMatrix4x4 camMvpMatrix)
                 p.vbo.drawInstanced(mode, 0, p.vbo.getNumVertices(), primCount);
             }
         }
-        
-        p.material.end();
     }
     
-    ofPopStyle();
     shader.end();
-    diffuseTex.unbind();
-    
-    glDisable(GL_CULL_FACE);
-    ofEnableAlphaBlending();
 }
 
 void Model::drawDebug()
@@ -325,10 +310,10 @@ void Model::populateEveryAnimationMatrix()
                 
                 aiMatrix4x4 temp = aim;
                 temp.Transpose();
-                ofmat.set(temp.a1, temp.a2, temp.a3, temp.a4,
-                          temp.b1, temp.b2, temp.b3, temp.b4,
-                          temp.c1, temp.c2, temp.c3, temp.c4,
-                          temp.d1, temp.d2, temp.d3, temp.d4);
+                ofmat.set(temp.a1 * 100.0, temp.a2 * 100.0, temp.a3 * 100.0, temp.a4 * 100.0,
+                          temp.b1 * 100.0, temp.b2 * 100.0, temp.b3 * 100.0, temp.b4 * 100.0,
+                          temp.c1 * 100.0, temp.c2 * 100.0, temp.c3 * 100.0, temp.c4 * 100.0,
+                          temp.d1 * 100.0, temp.d2 * 100.0, temp.d3 * 100.0, temp.d4);
                 
                 boneMatrices.push_back(ofmat);
             }

@@ -2,6 +2,7 @@
 
 void ofApp::setup()
 {
+    ofEnableDepthTest();
     ofSetFrameRate(60);
     ofBackground(ofColor::whiteSmoke);
     
@@ -31,8 +32,7 @@ void ofApp::draw()
     
     cam.end();
     
-    ofDisableDepthTest();
-//    model.drawDebug();
+    model.drawDebug();
     
     ofDrawBitmapStringHighlight("fps:" + ofToString(ofGetFrameRate()), 10, ofGetHeight() - 20);
 }
