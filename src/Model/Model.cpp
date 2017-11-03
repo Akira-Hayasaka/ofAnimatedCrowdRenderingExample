@@ -172,6 +172,11 @@ void Model::genMeshPieces()
         ofBlendMode blend = meshHelper->blendMode;
         mp.blendmode = blend;
 
+		//  piece.instancedAnimTextre.loadData(&animMat[0], w, h, GL_RGBA);
+		int w = maxNBone * 4;
+		int h = nInstance;
+		mp.instancedAnimTextre.allocate(w, h, GL_RGBA32F, GL_RGBA, GL_FLOAT);
+
         pieces.push_back(mp);
     }
 }
