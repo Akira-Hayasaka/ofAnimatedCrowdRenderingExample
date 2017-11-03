@@ -76,6 +76,7 @@ void Model::update()
                 {
                     int filledPoint = (i * w * 4) + (matCnt * matCell + j);
                     animMat[filledPoint] = ptr[j];
+					ofLog() << "ptr[j] = " << ptr[j];
                     wProceed++;
                 }
                 matCnt++;
@@ -139,9 +140,10 @@ void Model::drawDebug()
     for (int i = 0; i < pieces.size(); i++)
     {
         int h = pieces.at(i).instancedAnimTextre.getHeight();
-        pieces.at(i).instancedAnimTextre.draw(0, i * h,
-                                              pieces.at(i).instancedAnimTextre.getWidth(),
-                                              h);
+        pieces.at(i).instancedAnimTextre.draw(
+			0, i * h,
+			pieces.at(i).instancedAnimTextre.getWidth(),
+			h);
     }
     
     ofDrawBitmapStringHighlight("mesh parts = " + ofToString(pieces.size()), w + 10, 10);
@@ -249,6 +251,7 @@ void Model::bindBoneIDAndWeightToAttribute()
             {
                 boneIDs.push_back(bi.bornID.at(i));
                 weights.push_back(bi.weight.at(i));
+				//ofLog() << "bi.weight.at(i) = " << bi.weight.at(i);
             }
         }
         
@@ -314,7 +317,7 @@ void Model::populateEveryAnimationMatrix()
                           temp.b1 * 100.0, temp.b2 * 100.0, temp.b3 * 100.0, temp.b4 * 100.0,
                           temp.c1 * 100.0, temp.c2 * 100.0, temp.c3 * 100.0, temp.c4 * 100.0,
                           temp.d1 * 100.0, temp.d2 * 100.0, temp.d3 * 100.0, temp.d4);
-                
+				
                 boneMatrices.push_back(ofmat);
             }
             
