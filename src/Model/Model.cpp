@@ -76,7 +76,6 @@ void Model::update()
                 {
                     int filledPoint = (i * w * 4) + (matCnt * matCell + j);
                     animMat[filledPoint] = ptr[j];
-					ofLog() << "ptr[j] = " << ptr[j];
                     wProceed++;
                 }
                 matCnt++;
